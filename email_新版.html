@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>订阅邮件</title>
+    <script>
+        function submitForm() {
+            var emailInput = document.getElementById("email");
+            var submitButton = document.getElementById("submit-button");
+
+            // 将按钮文本更改为“正在订阅...”
+            submitButton.innerHTML = "正在订阅...";
+
+            // 提交表单
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // 将按钮文本更改为“订阅成功！”
+                        submitButton.innerHTML = "订阅成功！";
+                        emailInput.value = "";
+                    } else {
+                        alert('发生错误！');
+                    }
+                }
+            };
+            xhr.open('POST', 'http://localhost:1001/subscribe', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send('email=' + emailInput.value);
+        }
+    </script>
+</head>
+<body>
+    <h1>订阅邮件</h1>
+    <form>
+        <input type="email" id="email" placeholder="请输入邮箱地址" required>
+        <button type="button" id="submit-button" onclick="submitForm()">订阅邮件</button>
+    </form>
+</body>
+</html>
